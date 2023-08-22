@@ -28,6 +28,19 @@ class LoanApplicationAPITests(APITestCase):
         self.assertEqual(LoanApplication.objects.get().customer_ssn, '13109611111')
         
         
+    def test_create_loan_application_without_authentication(self):
+        url = reverse('loan_application_create')
+        data = {
+            'customer_ssn': '13109611111',
+            'full_name': 'tor-erik kristensen',
+            'loan_amount': 100000,
+            'equity_amount': 200000,
+            'salary_amount': 400000,
+        }
+        
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        
     def test_retrieve_loan_applications_by_staff(self):
         self.client.force_authenticate(user=self.staff_user)  
         
@@ -43,19 +56,6 @@ class LoanApplicationAPITests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         
         
-    def test_create_loan_application_without_authentication(self):
-        url = reverse('loan_application_create')
-        data = {
-            'customer_ssn': '13109611111',
-            'full_name': 'tor-erik kristensen',
-            'loan_amount': 100000,
-            'equity_amount': 200000,
-            'salary_amount': 400000,
-        }
-        
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
-
     def test_retrieve_loan_applications_without_authentication(self):
         url = reverse('loan_application_list')
         response = self.client.get(url)
