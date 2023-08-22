@@ -12,11 +12,12 @@ from . import serializers
 class LoanApplicationCreateView(APIView):
     permission_classes = [IsAuthenticated]
     queryset = models.LoanApplication.objects.all()
-    serializer_class = serializers.LoanApplicationSerializer
+    serializer_class = serializers.LoanApplicationCreateSerializer
     
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
+            serializer.validated_data["user"] = request.user
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -24,7 +25,7 @@ class LoanApplicationCreateView(APIView):
 class LoanApplicationListView(APIView):
     permission_classes = [permissions.IsStaffUser]
     queryset = models.LoanApplication.objects.all()
-    serializer_class = serializers.LoanApplicationSerializer
+    serializer_class = serializers.LoanApplicationAdminListSerializer
     
     def get(self, request):
         loan_applications = models.LoanApplication.objects.all()
