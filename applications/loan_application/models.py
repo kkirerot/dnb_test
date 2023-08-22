@@ -9,7 +9,7 @@ class LoanApplication(models.Model):
     salary_amount = models.IntegerField()
 
     def __str__(self):
-        return self.FullName
+        return self.full_name
     
     class Meta:
         app_label = 'loan_application'
