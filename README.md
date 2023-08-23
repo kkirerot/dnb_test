@@ -2,7 +2,7 @@ The is an backend application where the goal is to submit a loan application wit
 
 You will need python version 3.10.6 and pip installed
 
-THe installations can be found here:
+The installations can be found here:
 https://www.python.org/downloads/windows/
 
 after cloning the repository you can open a command window, and navigate to the folder where the manager file is.
